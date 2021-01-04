@@ -37,12 +37,12 @@ The mean transfer fee was £11,944,740 (std = £14,806,470) with a median value 
 Figure 2 shows the distribution of logged transfer fee by positions. Attackers had a highest mean transfer fees (£13,949,840), midfielders second highest (£11,165,590) and defenders the lowest (£10,418,530). 
 
 ### Figure 2
-![Figure 2](./images/dist_trans_fee_by_position.png)
+![Figure 2](images/dist_trans_fee_by_position.png)
 
 The distribution of transfer fee was significantly (p-value = 0.02) different by nationality with English (£19,684,760) and Brazilian (£19,142,800) players having the highest mean transfer fees (Figure 3). 
 
 ### Figure 3
-![Figure 3](./images/dist_trans_fee_by_nationality.png)
+![Figure 3](/images/dist_trans_fee_by_nationality.png)
 
 Generally speaking, the relationship between performance metrics and transfer fee was small to moderate with most correlations between 0.15 and 0.35.  The metrics that tended to have the highest correlation with transfer fee were offensive statistics.   Stratified by position the relationship between transfer fee and offensive performance metrics was strongest for attackers and midfielders had moderate relationships for most metrics.  Defenders, however, tended to have the smallest correlation between transfer fee and performance metrics even for key defensive performance metrics. 
 
@@ -60,19 +60,17 @@ correlation of clearances with fee for defenders: r=0.131, p=0.051
 
 
 ### Figure 4
-![Figure 4](./images/Scatter_trans_fee_xg_clearances.png)
+![Figure 4](.images/Scatter_trans_fee_xg_clearances.png)
 
-### Table 1. 
-Correlation of Transfer
-| Group       |Expected Goals           | Clearances            |
-| :---        |:---:                    |:---:                  |
-|             | Correlation   | P-value | Correlation | P-value |
-|             | :---:         | :---    | :---:       | :---    |
-| Overall     | 0.326         | <0.05   |0.038        | 0.34    |
-| Attackers   | 0.431         | <0.05   |0.176        | 0.01    |
-| Midfielders | 0.319         | <0.05   | 0.224       | 0.01    |
-| Defenders   | 0.227         | <0.05   |0.131        | 0.05    |
-
+### Table 1. Correlation of transfer fee with expected goals and clearances overall and by position.
+Correlation of transfer fee with expected goals and clearances overall and by position.
+|             | Expected Goals |         | Clearances     |         |
+|-------------|----------------|---------|----------------|---------|
+| Group       | Correlation    | P-value | Correlation    | P-value |
+| Overall     | 0.326          | <0.05   | 0.038          | 0.34    |
+| Attackers   | 0.431          | <0.05   | 0.176          | 0.01    |
+| Midfielders | 0.319          | <0.05   | 0.224          | 0.01    |
+| Defenders   | 0.227          | <0.05   | 0.131          | 0.05    |
 
 
 ## Conclusions and Next Steps
