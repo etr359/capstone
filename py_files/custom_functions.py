@@ -48,31 +48,3 @@ def model_evaluation(model, X_train, X_test,y_train, y_test):
     print('Training Root Mean Squared Error:' , round(train_rmse,3))
     print('Testing adj R squared:', round(model.score(X_test, y_test),3))
     print('Testing Root Mean Squared Error:' , round(test_rmse,3))
-
-
-def lin_reg(X_train, X_test, y_train, y_test):
-    '''This function takes as an input the train test split on X and Y and returns the 
-    RMSE and adj R2 for the training and testing data.  This is built specifically for
-    the ln of the transfer fee given the findings in EDA of the dist of fee'''
-    #instantiate a linear regression object
-    lm = LinearRegression()
-
-    #fit the linear regression to the data
-    lm = lm.fit(X_train, y_train)
-
-    #predict on the training and test set (modeled log of fee as outcome)
-    log_y_train_pred = lm.predict(X_train)
-    log_y_test_pred = lm.predict(X_test)
-
-    #exponentiate the predicted values
-    y_train_pred = np.exp(log_y_train_pred)
-    y_test_pred = np.exp(log_y_test_pred)
-
-    #calculate RMSE on exponentiated predicted and exponentiated y values to get RMSE in pounds
-    train_rmse = np.sqrt(metrics.mean_squared_error(np.exp(y_train), y_train_pred))
-    test_rmse = np.sqrt(metrics.mean_squared_error(np.exp(y_test), y_test_pred))
-
-    print('Training adj R squared:', round(lm.score(X_train, y_train),3))
-    print('Training Root Mean Squared Error:' , round(train_rmse,3))
-    print('Testing adj R squared:', round(lm.score(X_test, y_test),3))
-    print('Testing Root Mean Squared Error:' , round(test_rmse,3))
