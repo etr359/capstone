@@ -21,7 +21,7 @@ Data on transfers was scraped from [Transfermarkt](https://www.transfermarkt.us/
 
 ## Methods
 
-Exploratory data analysis assessed the distribution of the transfer value and its association with demographics and key performance metrics overall and stratified by position.  To predict the transfer value I compared the performance of a series of three different linear regressions (OLS, Ridge and Lasso), on two different sets of features (a reduced set of features chosen for interpretability, and the first 6 principle components on a PCA of the full set of features) for both first and second order polynomials. Models were compared using the RMSE and adjusted r-squared on a 20% train-test split. 
+Exploratory data analysis assessed the distribution of the transfer value and its association with demographics and key performance metrics overall and stratified by position.  To predict the transfer value I compared the performance of a series of three different linear regressions (OLS, Ridge and Lasso), on two different sets of features (a reduced set of features chosen for interpretability, and the first 6 principle components on a PCA of the full set of features) for both first and second order polynomials. Models were compared using the RMSE and adjusted r-squared on a 20% train-test split. The values of lambda for Ridge and Lasso regression were determined using GridSearch.
 
 
 ## Results
@@ -32,7 +32,6 @@ The mean transfer fee was £11,944,740 (std = £14,806,470) with a median value 
 
 ### Figure 1
 ![Figure 1](/Images/transfer_fee_dist_unlogged_and_logged.png)
-![Figure 1](/images/transfer_fee_dist_unlogged_and_logged.png)
 
 Figure 2 shows the distribution of logged transfer fee by positions. Attackers had a highest mean transfer fees (£13,949,840), midfielders second highest (£11,165,590) and defenders the lowest (£10,418,530). 
 
@@ -44,26 +43,12 @@ The distribution of transfer fee was significantly (p-value = 0.02) different by
 ### Figure 3
 ![Figure 3](/Images/dist_trans_fee_by_nationality.png)
 
-Generally speaking, the relationship between performance metrics and transfer fee was small to moderate with most correlations between 0.15 and 0.35.  The metrics that tended to have the highest correlation with transfer fee were offensive statistics.   Stratified by position the relationship between transfer fee and offensive performance metrics was strongest for attackers and midfielders had moderate relationships for most metrics.  Defenders, however, tended to have the smallest correlation between transfer fee and performance metrics even for key defensive performance metrics. 
-
-To illustrate the relationship between performance metrics and transfer fee we present two key findings in figure 4.  Generally speaking, performance metrics only had a small to moderate correlation with the logged transfer fee with 
-
-overall correlation of xg with fee: r=0.326, p=0.0
-correlation of xg with fee for attackers: r=0.431, p=0.0
-correlation of xg with fee for midfielders : r=0.319, p=0.0
-correlation of xg with fee for defenders: r=0.227, p=0.001
-
-overall correlation of clearances with fee: r=0.038, p=0.343
-correlation of clearances with fee for attackers: r=0.176, p=0.005
-correlation of clearances with fee for midfielders : r=0.224, p=0.006
-correlation of clearances with fee for defenders: r=0.131, p=0.051
-
+Generally speaking, the relationship between performance metrics and transfer fee was small to moderate with most correlations between 0.15 and 0.35. The metrics that tended to have the highest correlation with transfer fee were offensive statistics. Stratified by position, the relationship between transfer fee and offensive performance metrics was strongest for attackers while midfielders had moderate relationships for most metrics.  Defenders, however, tended to have the smallest correlation between transfer fee and performance metrics even for key defensive performance metrics. To illustrate these relationships we present the relationship between transfer fee and the performance metrics expected goals and clearances in figure 4.  
 
 ### Figure 4
 ![Figure 4](/Images/Scatter_trans_fee_xg_clearances.png)
 
 ### Table 1. Correlation of transfer fee with expected goals and clearances overall and by position.
-Correlation of transfer fee with expected goals and clearances overall and by position.
 |             | Expected Goals |         | Clearances     |         |
 |-------------|----------------|---------|----------------|---------|
 | Group       | Correlation    | P-value | Correlation    | P-value |
@@ -72,26 +57,57 @@ Correlation of transfer fee with expected goals and clearances overall and by po
 | Midfielders | 0.319          | <0.05   | 0.224          | 0.01    |
 | Defenders   | 0.227          | <0.05   | 0.131          | 0.05    |
 
+Tables 2-5 show the results of the series of models predicting transfer values. Generally speaking, none of the models accurately predict transfer values with no model having an RMSE less than £10,000,000.  It is also clear that without regularization the OLS models are overfit with second order polynomials.  The best model is the Ridge regression (lambda = 50) of second order polynomials on the first 6 principle components of all the features.
+
+### Table 2. RMSE and adjusted R-square (20% train-test split) of OLS, Ridge and Lasso regression of a reduced set of features (first order polynomials) predicting transfer value in pounds.
+|                        | train RMSE      | train adj R-square | test RMSE       | test adj R-square |
+|------------------------|-----------------|--------------------|-----------------|-------------------|
+| OLS                    |        11180629 |        0.31        |        18079019 |        0.127      |
+| Ridge (lambda = 27)    |        11380364 |        0.306       |        17988762 |        0.138      |
+| Lasso (lambda = 0.007) |        11261099 |        0.308       |        17947248 |        0.144      |
+
+### Table 3. RMSE and adjusted R-square (20% train-test split) of OLS, Ridge and Lasso regression of a reduced set of features (second order polynomials) predicting transfer value in pounds.
+|                       | train RMSE      | train adj R-square | test RMSE        | test adj R-square |
+|-----------------------|-----------------|--------------------|------------------|-------------------|
+| OLS                   |        13543810 |        0.474       |        616948550 |        -3.96E+24  |
+| Ridge (lambda = 330)  |        10808972 |        0.365       |        18016336  |        0.14       |
+| Lasso (lambda = 0.05) |        11727801 |        0.307       |        18144495  |        0.167      |
+
+
+### Table 4. RMSE and adjusted R-square (20% train-test split) of OLS, Ridge and Lasso regression on first 6 principle components (first order polynomials) predicting transfer value in pounds.
+|                       | train RMSE      | train adj R-square | test RMSE       | test adj R-square |
+|-----------------------|-----------------|--------------------|-----------------|-------------------|
+| OLS                   |        14494782 |        0.25        |        17085176 |        0.227      |
+| Ridge (lambda = 100)  |        13620291 |        0.249       |        17167526 |        0.228      |
+| Lasso (lambda = 0.02) |        13629797 |        0.249       |        17198892 |        0.226      |
+
+### Table 5. RMSE and adjusted R-square (20% train-test split) of OLS, Ridge and Lasso regression on first 6 principle components (second order polynomials) predicting transfer value in pounds.
+|                       | train RMSE       | train adj R-square | test RMSE       | test adj R-square |
+|-----------------------|------------------|--------------------|-----------------|-------------------|
+| OLS                   |        519962594 |        -0.207      |        49010846 |        -0.325     |
+| Ridge (lambda = 50)   |        12161791  |        0.309       |        16720144 |        0.203      |
+| Lasso (lambda = 0.05) |        11895724  |        0.3         |        17303987 |        0.212      |
+
 
 ## Conclusions and Next Steps
 
-We report a model to classify the sentiment of technology related tweets with over 92% accuracy.  Our content analysis created actionable insights for stakeholders.
+I report a model that predicts 20.3% of the variance in the transfer value of professional soccer players with a mean error of £16.7 million. These numbers are in part a reflection of the volatility of the transfer market and the fact that valuation is not soley based on a few demographic characteristics and one year of performance.  Not withstanding the non-trivial error the models may help clubs benchmark player valuations.
 
-The dataset is restricted to tweets from one festival in one year limiting its generalizability. To illustrate, this data set is from the 2011 SXSW when the iPad 2 was released, hence it's high frequency count among tweets with a positive valence.  However, it's likely that as technology updates older versions of products may be referenced negatively.  Incorporating tweets from consequtive years may help address this shortcoming.
-
-Furthermore, our prediction model was fit to the entire dataset.  It's possible improvements in prediction, and utility, may come from training the model to identify positive and negative tweets related to specific brands.
+Future research could improve these models in a few important ways.  First, incorporating more observations.  I only had access to detailed performance metrics for players in the Big 5 leagues for 3 seasons.  Incorporating more years and more leagues would increase our sample size bringing stability to our estimates.  Second, incorporating more complex data. I modeled transfer fee as a function of performance metrics lagged by one year, however, player valuations are likely based on a body of work.  Models that incorporate career statistics are likely to improve prediction.  Third, incorporating data reflective of other important domains.  One particularly salient domain is the remaining contract which the transfer is purchasing.  It is well known that the length of the remaining contract or the size of a players salary influences the size of the transfer fee.
 
 ## For More Information
 
-Please review our full analysis in [our Jupyter Notebook](./SentimentAnalysis.ipynb) or our [presentation](https://docs.google.com/presentation/d/1Yv25gIvnjTro58RzoQQlWH8ScWMWAmlaDA5BKMhcFyI/edit?usp=sharing).
+Please review the full analysis in [the Jupyter Notebook](./Modeling.ipynb) or our [presentation](https://docs.google.com/presentation/d/1ufv4H5kQAGmo9drzWyo7iYLDKzW7xde84ZQoPU704H8/edit?usp=sharing).
 
 For any additional questions, please contact Eric Roberts etr359@gmail.com**
 
 ## Repository Structure
 
 ```
-├── README.md                    <- The top-level README for reviewers of this project
-├── SentimentAnalysis.ipynb      <- Narrative documentation of analysis in Jupyter NB
-├── AncillaryAnalyses            <- Notebooks containing ancillary analyses 
-├── data                         <- Both sourced externally and generated from code
-└── images                       <- Both sourced externally and generated from code
+├── README.md                         <- The top-level README for reviewers of this project
+├── Data cleaning.ipynb               <- Narrative documentation of data cleaning in Jupyter NB
+├── EDA and feature engineering.ipynb <- Narrative documentation of EDA in Jupyter NB
+├── Modeling.ipynb                    <- Narrative documentation of modeling in Jupyter NB
+├── Webscrapers                       <- Notebooks containing webscrapers 
+├── data                              <- Both sourced externally and generated from code
+└── images                            <- Generated from code
