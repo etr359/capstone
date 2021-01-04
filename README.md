@@ -32,7 +32,7 @@ The mean transfer fee was £11,944,740 (std = £14,806,470) with a median value 
 
 ### Figure 1
 ![Figure 1](/Images/transfer_fee_dist_unlogged_and_logged.png)
-
+![Figure 1](/images/transfer_fee_dist_unlogged_and_logged.png)
 
 Figure 2 shows the distribution of logged transfer fee by positions. Attackers had a highest mean transfer fees (£13,949,840), midfielders second highest (£11,165,590) and defenders the lowest (£10,418,530). 
 
